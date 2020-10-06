@@ -7,8 +7,9 @@ const Map = dynamic(() => import("../components/Map"), {
 });
 
 export default function Home({stats, overall}) {
-  console.log(markerDataTest(stats[0]))
+  console.log(overall)
   return (
+
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
@@ -16,9 +17,29 @@ export default function Home({stats, overall}) {
       </Head>
 
       <main>
-        <Map
-        markers={stats.map(markerData)}
-        />
+        <Map markers={stats.map(markerData)}/>
+        <div className="overall-container">
+          <div>
+            <h1>Total Cases: </h1>
+            <h2>{overall.cases}</h2>
+          </div>
+          <div>
+            <h1>Total Deaths: </h1>
+            <h2>{overall.deaths}</h2>
+          </div>
+          <div>
+            <h1>Today's Cases: </h1>
+            <h2>{overall.todayCases}</h2>
+          </div>
+          <div>
+            <h1>Today's Deaths: </h1>
+            <h2>{overall.todayDeaths}</h2>
+          </div>
+          <div>
+            <h1>Total Active Cases: </h1>
+            <h2>{overall.active}</h2>
+          </div>
+        </div>
       </main>
     </div>
   )
@@ -40,26 +61,13 @@ export async function getStaticProps(context){
 
 function markerData(data, index, arr) {
   let currentVal = arr[index]
-  let lat = currentVal.countryInfo.lat;
-  let long = currentVal.countryInfo.long;
-  let countryName = currentVal.countryInfo.iso3;
-  let active = currentVal.active;
-  let cases = currentVal.cases;
-  let deaths = currentVal.deaths;
-  let info = {lat, long, countryName, cases, active, deaths}
+  let info = {
+    lat: currentVal.countryInfo.lat, 
+    long: currentVal.countryInfo.long, 
+    countryName: currentVal.countryInfo.iso3, 
+    cases: currentVal.countryInfo.cases, 
+    active: currentVal.countryInfo.active, 
+    deaths: currentVal.countryInfo.deaths
+  }
   return info;
-}
-
-function markerDataTest(data) {
-  let lat = data.countryInfo.lat;
-  let long = data.countryInfo.long;
-  let countryName = data.countryInfo.iso3;
-  let active = data.active;
-  let cases = data.cases;
-  let deaths = data.deaths;
-  let info = {lat, long, countryName, cases, active, deaths}
-  console.log('info')
-  console.log(info)
-
-  return data
 }
