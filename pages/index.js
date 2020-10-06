@@ -6,8 +6,8 @@ const Map = dynamic(() => import("../components/Map"), {
   ssr: false,
 });
 
-
 export default function Home({stats, overall}) {
+  console.log(markerDataTest(stats[0]))
   return (
     <div className={styles.container}>
       <Head>
@@ -17,7 +17,7 @@ export default function Home({stats, overall}) {
 
       <main>
         <Map
-        markers={stats}
+        markers={stats.map(markerData)}
         />
       </main>
     </div>
@@ -36,4 +36,30 @@ export async function getStaticProps(context){
           overall
       },
   }
+}
+
+function markerData(data, index, arr) {
+  let currentVal = arr[index]
+  let lat = currentVal.countryInfo.lat;
+  let long = currentVal.countryInfo.long;
+  let countryName = currentVal.countryInfo.iso3;
+  let active = currentVal.active;
+  let cases = currentVal.cases;
+  let deaths = currentVal.deaths;
+  let info = {lat, long, countryName, cases, active, deaths}
+  return info;
+}
+
+function markerDataTest(data) {
+  let lat = data.countryInfo.lat;
+  let long = data.countryInfo.long;
+  let countryName = data.countryInfo.iso3;
+  let active = data.active;
+  let cases = data.cases;
+  let deaths = data.deaths;
+  let info = {lat, long, countryName, cases, active, deaths}
+  console.log('info')
+  console.log(info)
+
+  return data
 }
